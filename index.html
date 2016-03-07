@@ -76,18 +76,22 @@
 
       
       function getColor(m) {
-        return m > 40000 ? '#f1eef6' :
-               m > 45000 ? '#d4b9da' :
-               m > 50000 ? '#c994c7' :
-               m > 55000 ? '#df65b0' :
-               m > 60000 ? '#e7298a' :
-               m > 65000 ? '#ce1256' :
+        return m > 65000 ? '#f1eef6' :
+               m > 60000 ? '#d4b9da' :
+               m > 55000 ? '#c994c7' :
+               m > 50000 ? '#df65b0' :
+               m > 45000 ? '#e7298a' :
+               m > 40000 ? '#ce1256' :
                // m > 10   ? '#FED976' :
                           '#91003f';
           }
       function style(feature) {
+console.log(feature);
+
+console.log(parseInt(feature.properties.median_income))
+
         return {
-        fillColor: getColor(features.propeties.Workbook1_Medianincome),
+        fillColor: getColor(parseInt(feature.properties.median_income)),
         weight: 2,
         opacity: 1,
         color: 'white',
@@ -117,8 +121,8 @@
                  }
         function onEachFeature(feature, layer) {
             layer.on({
-            mouseover: highlightFeature,
-            mouseout: resetHighlight,
+           // mouseover: highlightFeature,
+           // mouseout: resetHighlight,
            
                     });
                     }
