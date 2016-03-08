@@ -76,14 +76,14 @@
 
       
       function getColor(m) {
-        return m > 65000 ? '#f1eef6' :
-               m > 60000 ? '#d4b9da' :
-               m > 55000 ? '#c994c7' :
-               m > 50000 ? '#df65b0' :
-               m > 45000 ? '#e7298a' :
-               m > 40000 ? '#ce1256' :
+        return m > 65000 ? '#4a1486' :
+               m > 60000 ? '#6a51a3':
+               m > 55000 ? '#807dba' :
+               m > 50000 ? '#9e9ac8' :
+               m > 45000 ? '#bcbddc' :
+               m > 40000 ? '#dadaeb' :
                // m > 10   ? '#FED976' :
-                          '#91003f';
+                          '#f2f0f7';
           }
       function style(feature) {
 console.log(feature);
@@ -114,7 +114,7 @@ console.log(parseInt(feature.properties.median_income))
             layer.bringToFront();
         }
              console.log(layer.feature.properties.name);
-          $('#infoWindow').text(layer.feature.properties.name);
+          $('#infoWindow').text(layer.feature.properties.NAME);
         }
         function resetHighlight(e) {
         geojson.resetStyle(e.target);
