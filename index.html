@@ -22,7 +22,7 @@
    /* background: #a3a3c2;
     font-color: #f0f0f5;*/
     }
-    h1{
+    h1,p{
       text-align: center;
       font-color:#7a0177;
 
@@ -36,6 +36,13 @@
     #infoWindow{
       background: #a6bddb;
       margin-left: 20px;
+      padding: 15px;
+       border-radius: 10px;
+       font-size: 30px;
+       position: relative;
+       top: -78px;
+       width: auto;
+      display: inline;
     }
 /*intro{
     text-align: center;
@@ -50,6 +57,7 @@
 <script src="http://cdn.leafletjs.com/leaflet/v0.7.7/leaflet.js"></script>
 <script src="https://code.jquery.com/jquery-2.2.0.min.js"></script>
 <h1>Median Incomes across United States</h1>
+<p>Click to Know the Median Incomes for each State</p>
 <div id="map"></div>
 <div id="infoWindow"></div>
 <script type="text/javascript">
@@ -68,27 +76,27 @@
       var geojson;
 
       
-     $.getJSON('data/unitedstates.geojson', function(states_data) {
-           // console.log(states_data);
-      geojson=L.geoJson(states_data).addTo(map);
+     // $.getJSON('data/unitedstates.geojson', function(states_data) {
+     //       // console.log(states_data);
+     //  geojson=L.geoJson(states_data).addTo(map);
 
-      });
+     //  });
 
       
       function getColor(m) {
-        return m > 65000 ? '#f1eef6' :
-               m > 60000 ? '#d4b9da' :
-               m > 55000 ? '#c994c7' :
-               m > 50000 ? '#df65b0' :
-               m > 45000 ? '#e7298a' :
-               m > 40000 ? '#ce1256' :
+        return m > 65000 ? '#4a1486' :
+               m > 60000 ? '#6a51a3' :
+               m > 55000 ? '#807dba' :
+               m > 50000 ? '#9e9ac8' :
+               m > 45000 ? '#bcbddc' :
+               m > 40000 ? '#dadaeb' :
                // m > 10   ? '#FED976' :
-                          '#91003f';
+                          '#f2f0f7';
           }
-      function style(feature) {
-console.log(feature);
+     function style(feature) {
+     console.log(feature);
 
-console.log(parseInt(feature.properties.median_income))
+     console.log(parseInt(feature.properties.median_income))
 
         return {
         fillColor: getColor(parseInt(feature.properties.median_income)),
@@ -99,13 +107,16 @@ console.log(parseInt(feature.properties.median_income))
         fillOpacity: 0.7
             };
       }
+      function zoomToFeature(e) {
+          map.fitBounds(e.target.getBounds());
+            }
 
-      function mouseoverFunction(e) {
+      function highlightFeature(e) {
         var layer = e.target;
 
         layer.setStyle({
             weight: 5,
-            color: '#666',
+            color: '#f7fcb9',
             dashArray: '',
             fillOpacity: 0.7
         });
@@ -113,23 +124,24 @@ console.log(parseInt(feature.properties.median_income))
         if (!L.Browser.ie && !L.Browser.opera) {
             layer.bringToFront();
         }
-             console.log(layer.feature.properties.name);
-          $('#infoWindow').text(layer.feature.properties.name);
+             console.log(parseInt(layer.feature.properties.median_income));
+          $('#infoWindow').text(parseInt(layer.feature.properties.median_income));
         }
         function resetHighlight(e) {
         geojson.resetStyle(e.target);
                  }
         function onEachFeature(feature, layer) {
             layer.on({
-           // mouseover: highlightFeature,
-           // mouseout: resetHighlight,
+           mouseover: highlightFeature,
+           mouseout: resetHighlight,
+           click: zoomToFeature
            
                     });
-                    }
-
+          }
+        
       // L.geoJson(states_data, {style: style}).addTo(map);
       $.getJSON('data/unitedstates.geojson', function(states_data) {
-           // console.log(states_data);
+           
       geojson=L.geoJson(states_data,{
         style: style,
         onEachFeature:onEachFeature
